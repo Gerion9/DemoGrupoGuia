@@ -56,7 +56,7 @@
             const map = new mapboxgl.Map({
             container: 'map',
             // Choose from Mapbox's core styles, or make your own style with Mapbox Stu dio
-            style: 'mapbox://styles/feipower/clndvd7pb07xw01qih22c4sw2',
+            style: 'mapbox://styles/feipower/cloytw7xw00ta01qs96xrda2e',
             zoom: 14,
             center: [-103.387367, 20.674337]
         });
@@ -157,7 +157,6 @@
                 const isChecked = e.target.checked;
                 const visibility = isChecked ? 'visible' : 'none';
                 map.setLayoutProperty(layer.idPrefix, 'visibility', visibility);
-                map.setLayoutProperty(layer.idPrefix + '2', 'visibility', visibility);
             });
         });
         // Traffic layer
@@ -285,9 +284,6 @@
                 this.textContent = 'Mostrar';
             }
         });
-        function changeCenter(longitude, latitude) {
-            map.setCenter([longitude, latitude]);
-            }
 
         document.getElementById('toggleNseZP').addEventListener('change', function() {
             let visibility = map.getLayoutProperty('nsezp', 'visibility');
