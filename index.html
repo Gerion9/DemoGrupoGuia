@@ -51,12 +51,18 @@
     <div id="company-logo">
         <img src="https://boomerang.s3.us-east-2.amazonaws.com/assets/home-page/logos/logo-guia.webp" alt="Grupo Guia logo">
     </div>
+    <div id="nse-legend" class="legend hidden">
+        <h3>NSE Legend</h3>
+        <div id="legend-content">
+            
+        </div>
+    </div>
     <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoiZmVpcG93ZXIiLCJhIjoiY2xrd3J2Nm95MTQ4djNubXFxZTNwOTcwcCJ9.i8v9xvkxubQWnp2Z6vkyFA';
             const map = new mapboxgl.Map({
             container: 'map',
             // Choose from Mapbox's core styles, or make your own style with Mapbox Stu dio
-            style: 'mapbox://styles/feipower/cloytw7xw00ta01qs96xrda2e',
+            style: 'mapbox://styles/feipower/clp01c3ys00tc01qq9h3p1s8p',
             zoom: 14,
             center: [-103.387367, 20.674337]
         });
@@ -83,7 +89,62 @@
         
         // Wait until the map has finished loading.
 
-        function addLayer(map, idPrefix, url, sourceLayer, color) {
+        const popup = new mapboxgl.Popup();
+
+        map.on('mousemove', (event) => {
+        const features = map.queryRenderedFeatures(event.point, {
+            layers: ['tiendasdeautoservicio',
+                        'tiendasdepartamentales',
+                        'tiendasdeconveniencia',
+                        'restaurantes',
+                        'cafeterias',
+                        'baresycentrosnocturnos',
+                        'hospitalesyclinicas',
+                        'farmacias',
+                        'clinicasveterinarias',
+                        'bancos',
+                        'cajerosautomaticos',
+                        'centrosreligiosos',
+                        'hoteles',
+                        'casinos',
+                        'gimnasios',
+                        'academiasdeportivas',
+                        'camposdegolf',
+                        'boliches',
+                        'escuelas',
+                        'cines',
+                        'trafficdata']
+        });
+
+        if (!features.length) {
+            popup.remove();
+            return;
+        }
+
+        const feature = features[0];
+
+        const popupContent = `
+            <div>
+                <h2>${feature.properties.nom_estab}</h2>
+                <p>Actividad económica: ${feature.properties.nombre_act}</p>
+                <p>Razón social: ${feature.properties.raz_social}</p>
+                <p>Número de empleados: ${feature.properties.per_ocu}</p>
+                <p>C.P.: ${feature.properties.cod_postal}</p>  
+                <p>Municipio: ${feature.properties.municipio}</p>
+                <p>Estado: ${feature.properties.entidad}</p>
+                <p>Fuente: Directorio Estadístico Nacional de Unidades Económicas.</p>
+            </div>
+        `;
+
+        popup
+            .setLngLat(feature.geometry.coordinates)
+            .setHTML(popupContent)
+            .addTo(map);
+
+        map.getCanvas().style.cursor = features.length ? 'pointer' : '';
+        });
+
+        function addLayers(map, idPrefix, url, sourceLayer, color) {
             const layerId = idPrefix;
 
             // Propiedades comunes de la capa
@@ -103,12 +164,12 @@
             const layerPaint = {
                 'circle-radius': [
                     'interpolate', ['linear'], ['zoom'],
-                    10, 10,
-                    18, 30
+                    10, 5,
+                    18, 8
                 ],
                 'circle-color': color,
-                'circle-blur': 1,
-                'circle-opacity': 0.6
+                'circle-stroke-color': '#000000',
+                'circle-stroke-width': 0.5
             };
 
             // Añadiendo la capa al mapa
@@ -117,15 +178,13 @@
                 paint: layerPaint,
                 ...commonLayerProperties
             });
-        }
+        };
 
         // Define your unique layer values
         const layerData = [
-            { idPrefix: 'routers', url: 'mapbox://feipower.3t693rkq', sourceLayer: 'Modems_Mageova_ubi-6d2ukr', color: '#0af3fd'},
             { idPrefix: 'tiendasdeautoservicio', url: 'mapbox://feipower.b73pzax7', sourceLayer: 'AreasInteres_DENUE_TiendasdeA-8z1j9j', color: '#FFC0CB'}, // Listo // Light Pink
             { idPrefix: 'tiendasdepartamentales', url: 'mapbox://feipower.77xd6zp1', sourceLayer: 'AreasInteres_DENUE_TiendasDep-2ekexf', color: '#90EE90'}, // Listo // Light Green
             { idPrefix: 'tiendasdeconveniencia', url: 'mapbox://feipower.6446s0dr', sourceLayer: 'AreasInteres_DENUE_TiendasdeC-7609vw', color: '#ADD8E6'}, // Listo // Light Blue
-            { idPrefix: 'tiendasdeconveniencia', url: 'mapbox://feipower.6446s0dr', sourceLayer: 'AreasInteres_DENUE_TiendasdeC-7609vw', color: '#FFFFE0 '}, // Listo // Light Blue
             { idPrefix: 'restaurantes', url: 'mapbox://feipower.1gf36kl8', sourceLayer: 'AreasInteres_DENUE_Restaurant-7kx24e', color: '#FFD700 '}, // Listo // Light Yellow
             { idPrefix: 'cafeterias', url: 'mapbox://feipower.d1j2xswb', sourceLayer: 'AreasInteres_DENUE_Cafeterias-70nmnk', color: '#FFA07A'}, // Pendiente // Gold
             { idPrefix: 'baresycentrosnocturnos', url: 'mapbox://feipower.2vlw4rfx', sourceLayer: 'AreasInteres_DENUE_Bares-ct21mi', color: '#E0FFFF'}, // Listo // Light Salmon
@@ -143,8 +202,7 @@
             { idPrefix: 'boliches', url: 'mapbox://feipower.1fmas4kg', sourceLayer: 'AreasInteres_DENUE_Boliche-0e8k5x', color: '#F5FFFA'}, // Listo // Lemon Chiffon
             { idPrefix: 'escuelas', url: 'mapbox://feipower.czo2oz6g', sourceLayer: 'AreasInteres_DENUE_Escuelas-bwd3dn', color: '#FAFAD2'}, // Listo // Mint Cream
             { idPrefix: 'cines', url: 'mapbox://feipower.agtk0ml1', sourceLayer: 'AreasInteres_DENUE_Cines-9zjp60', color: '#ffffff'} // 
-            
-        ];
+            ];
 
     map.on('load', () => {
         
@@ -175,10 +233,10 @@
                 'line-color': [
                 'match',
                 ['get', 'congestion'],
-                'heavy', '#2D44A3',
-                'moderate', '#5A89C7',
-                'low', '#87CEEB ',
-                '#000080'],
+                'heavy', '#FFA500',
+                'moderate', '#FFFF00',
+                'low', '#00FF00 ',
+                '#FF0000'],
                 'line-width': 3
             }
         });   
@@ -209,6 +267,7 @@
                 'fill-opacity': 0.5
             }
             });
+
         map.addLayer({
             id: 'nsezp-labels',
             type: 'symbol',
@@ -230,7 +289,7 @@
                     "('E', 7)", 'E',
                     ''  // Default label for unmatched values
                 ],
-                'text-size': 12,  // Adjust as needed
+                'text-size': 14,
                 'text-allow-overlap': false,  // This ensures text doesn't overlap with other features
                 visibility: 'none'
             },
@@ -242,7 +301,6 @@
 
         // Array of ids
         const ids = [
-            'Centroscomerciales',
             'Tiendasdeautoservicio',
             'Tiendasdepartamentales',
             'Tiendasdeconveniencia',
@@ -263,7 +321,6 @@
             'Boliches',
             'Escuelas',
             'Cines',
-            'Routers',
             'Trafficdata'
         ];
 
@@ -290,9 +347,13 @@
             
             if (visibility === 'visible') {
                 map.setLayoutProperty('nsezp', 'visibility', 'none');
+                document.getElementById('nse-legend').classList.add('hidden');
             } else {
                 map.setLayoutProperty('nsezp', 'visibility', 'visible');
+                document.getElementById('nse-legend').classList.remove('hidden');
+                updateNseLegend(); // Update legend content when shown
             }
+
         });
         document.getElementById('toggleTrafficdata').addEventListener('change', function() {
             let visibility = map.getLayoutProperty('trafficdata', 'visibility');
@@ -311,7 +372,31 @@
             } else {
                 map.setLayoutProperty('nsezp-labels', 'visibility', 'visible');
             }
-        });        
+        });
+        
+        const nseLegendData = {
+            "('A/B', 1)": { color: '#5ebd3e', label: 'A/B' },
+            "('C+', 2)": { color: '#ffb900', label: 'C+' },
+            "('C', 3)": { color: '#f78200', label: 'C' },
+            "('C-', 4)": { color: '#e23838', label: 'C-' },
+            "('D+', 5)": { color: '#973999', label: 'D+' },
+            "('D-', 6)": { color: '#587498', label: 'D-' },
+            "('E', 7)": { color: '#343d46', label: 'E' },
+            // Add other categories similarly
+        };
+
+        function updateNseLegend() {
+            const legendContent = document.getElementById('legend-content');
+            legendContent.innerHTML = ''; // Clear existing content
+
+            for (const key in nseLegendData) {
+                const item = nseLegendData[key];
+                const legendItem = document.createElement('div');
+                legendItem.innerHTML = `<span style="background-color: ${item.color};"></span> ${item.label}`;
+                legendContent.appendChild(legendItem);
+            }
+        }
+        
     </script>
 </body>
 </html>
