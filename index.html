@@ -164,8 +164,8 @@
             const layerPaint = {
                 'circle-radius': [
                     'interpolate', ['linear'], ['zoom'],
-                    10, 5,
-                    18, 8
+                    10, 3,
+                    18, 5
                 ],
                 'circle-color': color,
                 'circle-stroke-color': '#000000',
@@ -206,19 +206,8 @@
 
     map.on('load', () => {
         
-        layerData.forEach(layer => {
-            addLayers(map, layer.idPrefix, layer.url, layer.sourceLayer, layer.color);
-        });
-        
-        layerData.forEach(layer => {
-            document.getElementById('toggle' + layer.idPrefix.charAt(0).toUpperCase() + layer.idPrefix.slice(1)).addEventListener('change', function(e) {
-                const isChecked = e.target.checked;
-                const visibility = isChecked ? 'visible' : 'none';
-                map.setLayoutProperty(layer.idPrefix, 'visibility', visibility);
-            });
-        });
-        // Traffic layer
-        map.addLayer({
+                // Traffic layer
+                map.addLayer({
             id: 'trafficdata',
             type: 'line',
             source: {
@@ -296,7 +285,20 @@
             paint: {
                 'text-color': '#FFFFFF'  // Adjust text color as needed
             }
-        });        
+        }); 
+
+        layerData.forEach(layer => {
+            addLayers(map, layer.idPrefix, layer.url, layer.sourceLayer, layer.color);
+        });
+        
+        layerData.forEach(layer => {
+            document.getElementById('toggle' + layer.idPrefix.charAt(0).toUpperCase() + layer.idPrefix.slice(1)).addEventListener('change', function(e) {
+                const isChecked = e.target.checked;
+                const visibility = isChecked ? 'visible' : 'none';
+                map.setLayoutProperty(layer.idPrefix, 'visibility', visibility);
+            });
+        });
+       
     });
 
         // Array of ids
