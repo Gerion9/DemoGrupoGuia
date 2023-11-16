@@ -59,13 +59,23 @@
 }
 
 .legend {
-    /* Your styling here */
+    background: #f1f1f1;
+    position: absolute;
+    z-index: 1;
+    top: 120px;
+    left: 10px; /* Adjusted position */
+    border-radius: 3px;
+    border: 0px solid rgba(0, 0, 0, 0.4);
+    padding: 10px;
+    max-height: 70vh; /* Maximum height with scroll */
+    overflow-y: auto;
+    display: block;
 }
 .legend.hidden {
     display: none;
 }
-#legend-content div {
+/*#legend-content div {
     /* Styling for individual legend items */
-}
+/*}
         
         
