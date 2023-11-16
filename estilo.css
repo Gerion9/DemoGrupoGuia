@@ -62,8 +62,8 @@
     background: #f1f1f1;
     position: absolute;
     z-index: 1;
-    top: 120px;
-    right: 10px; /* Adjusted position */
+    bottom: 120px;
+    right: leftpx; /* Adjusted position */
     border-radius: 3px;
     border: 0px solid rgba(0, 0, 0, 0.4);
     padding: 10px;
@@ -73,6 +73,21 @@
 }
 .legend.hidden {
     display: none;
+}
+
+.legend h3 {
+    margin: 0;
+    padding: 10px;
+    font-size: 16px;
+    text-align: center;
+    font-weight: 700;
+}
+
+#legend-content span {
+    display: inline-block;
+    width: 20px; 
+    height: 20px;
+    margin-right: 5px;
 }
 /*#legend-content div {
     /* Styling for individual legend items */
