@@ -89,6 +89,12 @@
     height: 20px;
     margin-right: 5px;
 }
+
+.count-label {
+    font-weight: 500;
+    margin-left: 5px;
+    color: #555;
+}
 /*#legend-content div {
     /* Styling for individual legend items */
 /*}

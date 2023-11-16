@@ -25,26 +25,26 @@
             <label><input type="checkbox" id="toggleNseZP">Nivel socioeconómico (código postal)</label>
             <label><input type="checkbox" id="toggleTrafficdata">Tráfico (Live)</label>
             <h3>Puntos de interés</h3>
-            <label><input type="checkbox" id="toggleTiendasdeautoservicio" >Tiendas de autoservicio</label>
-            <label><input type="checkbox" id="toggleTiendasdepartamentales" >Tiendas departamentales</label>
-            <label><input type="checkbox" id="toggleTiendasdeconveniencia" >Tiendas de conveniencia</label>
-            <label><input type="checkbox" id="toggleRestaurantes" >Restaurantes</label>
-            <label><input type="checkbox" id="toggleCafeterias" >Cafeterías</label>
-            <label><input type="checkbox" id="toggleBaresycentrosnocturnos" >Bares y centros nocturnos</label>
-            <label><input type="checkbox" id="toggleHospitalesyclinicas" >Hospitales y clínicas</label>
-            <label><input type="checkbox" id="toggleFarmacias" >Farmacias</label>
-            <label><input type="checkbox" id="toggleClinicasveterinarias" >Clínicas veterinarias</label>
-            <label><input type="checkbox" id="toggleBancos" >Bancos</label>
-            <label><input type="checkbox" id="toggleCajerosautomaticos" >Cajeros automáticos</label>
-            <label><input type="checkbox" id="toggleCentrosreligiosos" >Centros religiosos</label>
-            <label><input type="checkbox" id="toggleHoteles" >Hoteles</label>
-            <label><input type="checkbox" id="toggleCasinos" >Casinos</label>
-            <label><input type="checkbox" id="toggleGimnasios" >Gimnasios</label>
-            <label><input type="checkbox" id="toggleAcademiasdeportivas" >Academias deportivas</label>
-            <label><input type="checkbox" id="toggleCamposdegolf" >Campos de golf</label>
-            <label><input type="checkbox" id="toggleBoliches" >Boliches</label>
-            <label><input type="checkbox" id="toggleEscuelas">Escuelas</label>
-            <label><input type="checkbox" id="toggleCines">Cines</label>
+            <label><input type="checkbox" id="toggleTiendasdeautoservicio" >Tiendas de autoservicio. <span id="tiendasdeautoservicio-count">( Puntos visibles: 0 )</span></label>
+            <label><input type="checkbox" id="toggleTiendasdepartamentales" >Tiendas departamentales. <span id="tiendasdepartamentales-count">( Puntos visibles: 0 )</span></label>
+            <label><input type="checkbox" id="toggleTiendasdeconveniencia" >Tiendas de conveniencia. <span id="tiendasdeconveniencia-count">( Puntos visibles: 0 )</span></label>
+            <label><input type="checkbox" id="toggleRestaurantes" >Restaurantes. <span id="restaurantes-count">( Puntos visibles: 0 )</span></label>
+            <label><input type="checkbox" id="toggleCafeterias" >Cafeterías. <span id="cafeterias-count">( Puntos visibles: 0 )</span></label>
+            <label><input type="checkbox" id="toggleBaresycentrosnocturnos" >Bares y centros nocturnos. <span id="baresycentrosnocturnos-count">( Puntos visibles: 0 )</span></label>
+            <label><input type="checkbox" id="toggleHospitalesyclinicas" >Hospitales y clínicas. <span id="hospitalesyclinicas-count">( Puntos visibles: 0 )</span></label>
+            <label><input type="checkbox" id="toggleFarmacias" >Farmacias. <span id="farmacias-count">( Puntos visibles: 0 )</span></label>
+            <label><input type="checkbox" id="toggleClinicasveterinarias" >Clínicas veterinarias. <span id="clinicasveterinarias-count">( Puntos visibles: 0 )</span></label>
+            <label><input type="checkbox" id="toggleBancos" >Bancos. <span id="bancos-count">( Puntos visibles: 0 )</span></label>
+            <label><input type="checkbox" id="toggleCajerosautomaticos" >Cajeros automáticos. <span id="cajerosautomaticos-count">( Puntos visibles: 0 )</span></label>
+            <label><input type="checkbox" id="toggleCentrosreligiosos" >Centros religiosos. <span id="centrosreligiosos-count">( Puntos visibles: 0 )</span></label>
+            <label><input type="checkbox" id="toggleHoteles" >Hoteles. <span id="hoteles-count">( Puntos visibles: 0 )</span></label>
+            <label><input type="checkbox" id="toggleCasinos" >Casinos. <span id="casinos-count">( Puntos visibles: 0 )</span></label>
+            <label><input type="checkbox" id="toggleGimnasios" >Gimnasios. <span id="gimnasios-count">( Puntos visibles: 0 )</span></label>
+            <label><input type="checkbox" id="toggleAcademiasdeportivas" >Academias deportivas. <span id="academiasdeportivas-count">( Puntos visibles: 0 )</span></label>
+            <label><input type="checkbox" id="toggleCamposdegolf" >Campos de golf. <span id="camposdegolf-count">( Puntos visibles: 0 )</span></label>
+            <label><input type="checkbox" id="toggleBoliches" >Boliches. <span id="boliches-count">( Puntos visibles: 0 )</span></label>
+            <label><input type="checkbox" id="toggleEscuelas">Escuelas. <span id="escuelas-count">( Puntos visibles: 0 )</span></label>
+            <label><input type="checkbox" id="toggleCines">Cines. <span id="cines-count">( Puntos visibles: 0 )</span></label>
             </div>
     </div>
     <div id="map"></div>
@@ -204,10 +204,10 @@
             { idPrefix: 'cines', url: 'mapbox://feipower.agtk0ml1', sourceLayer: 'AreasInteres_DENUE_Cines-9zjp60', color: '#ffffff'} // 
             ];
 
-    map.on('load', () => {
+        map.on('load', () => {
         
-                // Traffic layer
-                map.addLayer({
+        // Traffic layer
+        map.addLayer({
             id: 'trafficdata',
             type: 'line',
             source: {
@@ -228,7 +228,8 @@
                 '#FF0000'],
                 'line-width': 3
             }
-        });   
+        });
+
         map.addLayer({
             id: 'nsezp',
             type: 'fill',
@@ -296,10 +297,11 @@
                 const isChecked = e.target.checked;
                 const visibility = isChecked ? 'visible' : 'none';
                 map.setLayoutProperty(layer.idPrefix, 'visibility', visibility);
+
+                // Introduce a slight delay before updating the count
+                setTimeout(() => updatePointCount(layer.idPrefix), 300); // 300 ms delay
             });
         });
-       
-    });
 
         // Array of ids
         const ids = [
@@ -375,7 +377,7 @@
                 map.setLayoutProperty('nsezp-labels', 'visibility', 'visible');
             }
         });
-        
+        });
         const nseLegendData = {
             "('A/B', 1)": { color: '#5ebd3e', label: 'A/B', description: 'Está conformado en su mayoría por hogares en los que el jefe de familia tiene estudios profesionales o posgrado (80%). Siete de cada diez viviendas (72.5%) tienen al menos 3 dormitorios y un 67% cuentan con al menos dos automóviles. Prácticamente todos cuentan con internet (99%).'},
             "('C+', 2)": { color: '#ffb900', label: 'C+', description: 'El 72% de los jefes de hogar tiene al menos estudios de preparatoria. El 54% de las viviendas cuentan con al menos 3 dormitorios, el 30% tienen al menos dos automóviles y el 97% tiene internet fijo en la vivienda. Poco mas de la tercera parte del ingreso lo utiliza en alimentación (34%).'},
@@ -401,8 +403,94 @@
                 legendItem.innerHTML = `<span style="background-color: ${item.color};"></span> ${item.label}`;
                 legendContent.appendChild(legendItem);
             }
-        }
+        };
 
+        function updatePointCount(layerId) {
+            const features = map.queryRenderedFeatures({ layers: [layerId] });
+            const count = features.length;
+
+            // Check if the layer is visible
+            const isVisible = map.getLayoutProperty(layerId, 'visibility') === 'visible';
+            let countText = ' ';
+            if (isVisible) {
+                // Update the text content to show the number of visible points
+                countText = `( Puntos visibles: ${count} )`;
+            }
+
+            // Update the text content and apply a CSS class
+            const countElement = document.getElementById(layerId + '-count');
+            countElement.textContent = countText;
+            countElement.className = 'count-label';
+        };
+
+        map.on('moveend', function() {
+            updatePointCount('tiendasdeautoservicio');
+            updatePointCount('tiendasdepartamentales');
+            updatePointCount('tiendasdeconveniencia');
+            updatePointCount('restaurantes');
+            updatePointCount('cafeterias');
+            updatePointCount('baresycentrosnocturnos');
+            updatePointCount('hospitalesyclinicas');
+            updatePointCount('farmacias');
+            updatePointCount('clinicasveterinarias');
+            updatePointCount('bancos');
+            updatePointCount('cajerosautomaticos');
+            updatePointCount('centrosreligiosos');
+            updatePointCount('hoteles');
+            updatePointCount('casinos');
+            updatePointCount('gimnasios');
+            updatePointCount('academiasdeportivas');
+            updatePointCount('camposdegolf');
+            updatePointCount('boliches');
+            updatePointCount('escuelas');
+            updatePointCount('cines');
+        });
+
+        map.on('zoomend', function() {
+            updatePointCount('tiendasdeautoservicio');
+            updatePointCount('tiendasdepartamentales');
+            updatePointCount('tiendasdeconveniencia');
+            updatePointCount('restaurantes');
+            updatePointCount('cafeterias');
+            updatePointCount('baresycentrosnocturnos');
+            updatePointCount('hospitalesyclinicas');
+            updatePointCount('farmacias');
+            updatePointCount('clinicasveterinarias');
+            updatePointCount('bancos');
+            updatePointCount('cajerosautomaticos');
+            updatePointCount('centrosreligiosos');
+            updatePointCount('hoteles');
+            updatePointCount('casinos');
+            updatePointCount('gimnasios');
+            updatePointCount('academiasdeportivas');
+            updatePointCount('camposdegolf');
+            updatePointCount('boliches');
+            updatePointCount('escuelas');
+            updatePointCount('cines');
+        });
+
+        map.on('load', function() {
+            updatePointCount('tiendasdeautoservicio');
+                updatePointCount('tiendasdepartamentales');
+                updatePointCount('tiendasdeconveniencia');
+                updatePointCount('restaurantes');
+                updatePointCount('cafeterias');
+                updatePointCount('baresycentrosnocturnos');
+                updatePointCount('hospitalesyclinicas');
+                updatePointCount('farmacias');
+                updatePointCount('clinicasveterinarias');
+                updatePointCount('bancos');
+                updatePointCount('cajerosautomaticos');
+                updatePointCount('centrosreligiosos');
+                updatePointCount('hoteles');
+                updatePointCount('casinos');
+                updatePointCount('gimnasios');
+                updatePointCount('academiasdeportivas');
+                updatePointCount('camposdegolf');
+                updatePointCount('boliches');
+                updatePointCount('escuelas');
+                updatePointCount('cines');
+        });
         
     </script>
 </body>
