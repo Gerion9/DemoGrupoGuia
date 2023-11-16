@@ -11,6 +11,82 @@
     <style>
         body { margin: 0; padding: 0; font-family: Lato;}
         #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+    #company-logo {
+            position: absolute;
+            top: 3%;
+            left: 80px;
+            z-index: 1000;
+        }
+        #company-logo img {
+            width: 100px;   /* Adjust the width as needed */
+            height: auto;   /* Maintains the aspect ratio */
+            filter: drop-shadow(0px 0px 10px rgba(255, 255, 255, 1));
+        }
+        #layer-control-panel {
+            background: #f1f1f1;
+            position: absolute;
+            z-index: 1;
+            top: 120px;
+            left: 10px; /* Adjusted position */
+            border-radius: 3px;
+            border: 0px solid rgba(0, 0, 0, 0.4);
+            padding: 10px;
+            max-height: 70vh; /* Maximum height with scroll */
+            overflow-y: auto;
+        }
+        #layer-control-panel label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: 400;
+        }
+        #layer-control-panel label input {
+            margin-right: 5px;
+        }
+        #layer-control-panel h3 {
+            margin: 0;
+            padding: 10px;
+            font-size: 16px;
+            text-align: center;
+            font-weight: 700;
+        }
+        #layer-control-panel h2 {
+            margin: 0;
+            padding: 10px;
+            font-size: 16px;
+            text-align: center;
+            font-weight: 700;
+        }
+        #layer-control-panel .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #layer-control-panel .panel-content {
+            display: block;  /* Default state: shown */
+        }
+
+        #layer-control-panel.minimized .panel-content {
+            display: none;  /* Hidden when the panel is minimized */
+        }
+
+        .legend {
+            background: #f1f1f1;
+            position: absolute;
+            z-index: 1;
+            top: 120px;
+            right: 10px; /* Adjusted position */
+            border-radius: 3px;
+            border: 0px solid rgba(0, 0, 0, 0.4);
+            padding: 10px;
+            max-height: 70vh; /* Maximum height with scroll */
+            overflow-y: auto;
+            display: block;
+        }
+        .legend.hidden {
+            display: none;
+        }
     </style>
     </head>
     <body>

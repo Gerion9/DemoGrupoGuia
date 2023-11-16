@@ -63,7 +63,7 @@
     position: absolute;
     z-index: 1;
     top: 120px;
-    left: 10px; /* Adjusted position */
+    right: 10px; /* Adjusted position */
     border-radius: 3px;
     border: 0px solid rgba(0, 0, 0, 0.4);
     padding: 10px;
