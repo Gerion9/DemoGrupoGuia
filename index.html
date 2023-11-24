@@ -25,6 +25,7 @@
             <label><input type="checkbox" id="toggleNseZP">Nivel socioeconómico (código postal)</label>
             <label><input type="checkbox" id="toggleTrafficdata">Tráfico (Live)</label>
             <h3>Puntos de interés</h3>
+            <label><input type="checkbox" id="toggleHeatmap"> Show Cafeterias and Restaurantes Heatmap</label>
             <label><input type="checkbox" id="toggleTiendasdeautoservicio" >Tiendas de autoservicio. <span id="tiendasdeautoservicio-count">( Puntos visibles: 0 )</span></label>
             <label><input type="checkbox" id="toggleTiendasdepartamentales" >Tiendas departamentales. <span id="tiendasdepartamentales-count">( Puntos visibles: 0 )</span></label>
             <label><input type="checkbox" id="toggleTiendasdeconveniencia" >Tiendas de conveniencia. <span id="tiendasdeconveniencia-count">( Puntos visibles: 0 )</span></label>
@@ -180,6 +181,76 @@
             });
         };
 
+        function addHeatmapLayer(map, id, source, maxZoom, color) {
+            map.addLayer({
+                'id': id,
+                'type': 'heatmap',
+                'source': source,
+                'maxzoom': maxZoom,
+                'paint': {
+                    // Increase the heatmap weight based on frequency and property magnitude
+                    'heatmap-weight': [
+                        'interpolate',
+                        ['linear'],
+                        ['get', 'mag'],
+                        0, 0,
+                        6, 1
+                    ],
+                    // Increase the heatmap color weight by zoom level
+                    // heatmap-intensity is a multiplier on top of heatmap-weight
+                    'heatmap-intensity': [
+                        'interpolate',
+                        ['linear'],
+                        ['zoom'],
+                        0, 1,
+                        9, 3
+                    ],
+                    // Color ramp for heatmap.  Domain is 0 (low) to 1 (high).
+                    // Begin color ramp at 0-stop with a 0-transparency color
+                    // to create a blur-like effect.
+                    'heatmap-color': [
+                        'interpolate',
+                        ['linear'],
+                        ['heatmap-density'],
+                        0, 'rgba(33,102,172,0)',
+                        0.2, color,
+                        1, 'rgba(178,24,43,1)'
+                    ],
+                    // Adjust the heatmap radius by zoom level
+                    'heatmap-radius': [
+                        'interpolate',
+                        ['linear'],
+                        ['zoom'],
+                        0, 2,
+                        9, 20
+                    ],
+                    // Transition from heatmap to circle layer by zoom level
+                    'heatmap-opacity': [
+                        'interpolate',
+                        ['linear'],
+                        ['zoom'],
+                        7, 1,
+                        9, 0
+                    ],
+                }
+            });
+        }
+
+        function createHeatmapSource(layers) {
+            let combinedFeatures = [];
+        
+            layers.forEach(layerId => {
+                const features = map.queryRenderedFeatures({ layers: [layerId] });
+                combinedFeatures = combinedFeatures.concat(features);
+            });
+        
+            return {
+                'type': 'FeatureCollection',
+                'features': combinedFeatures
+            };
+        }
+
+
         // Define your unique layer values
         const layerData = [
             { idPrefix: 'tiendasdeautoservicio', url: 'mapbox://feipower.b73pzax7', sourceLayer: 'AreasInteres_DENUE_TiendasdeA-8z1j9j', color: '#FFC0CB'}, // Listo // Light Pink
@@ -205,7 +276,19 @@
             ];
 
         map.on('load', () => {
-        
+        // Specify the layers you want to include in the heatmap
+        const layersForHeatmap = ['cafeterias', 'restaurantes'];
+    
+        // Create a GeoJSON source for the heatmap
+        const heatmapGeoJSON = createHeatmapSource(layersForHeatmap);
+    
+        // Add the GeoJSON source to the map
+        map.addSource('combinedHeatmapSource', {
+            'type': 'geojson',
+            'data': heatmapGeoJSON
+        });
+        // Add the heatmap layer using the new source
+        addHeatmapLayer(map, 'combinedHeatmap', 'combinedHeatmapSource', 9, '#FF0000');
         // Traffic layer
         map.addLayer({
             id: 'trafficdata',
@@ -287,7 +370,13 @@
                 'text-color': '#FFFFFF'  // Adjust text color as needed
             }
         }); 
-
+        //dddddd
+        // Toggle heatmap visibility based on checkbox
+        document.getElementById('toggleHeatmap').addEventListener('change', function(e) {
+            map.setLayoutProperty('cafeteriaRestaurantHeatmap', 'visibility', e.target.checked ? 'visible' : 'none');
+        });
+        //dddddd
+            
         layerData.forEach(layer => {
             addLayers(map, layer.idPrefix, layer.url, layer.sourceLayer, layer.color);
         });
