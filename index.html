@@ -204,43 +204,7 @@
             { idPrefix: 'cines', url: 'mapbox://feipower.agtk0ml1', sourceLayer: 'AreasInteres_DENUE_Cines-9zjp60', color: '#ffffff'} // 
             ];
 
-        // Adding a heatmap layer for 'restaurantes'
-        map.addLayer({
-            id: 'restaurantes-heatmap',
-            type: 'heatmap',
-            source: {
-                type: 'vector',
-                url: 'mapbox://feipower.1gf36kl8'  // Same as the original layer
-            },
-            'source-layer': 'AreasInteres_DENUE_Restaurant-7kx24e',  // Same as the original layer
-            layout: {
-                visibility: 'none'  // Start with the heatmap hidden
-            },
-            paint: {
-                // Customize these properties based on your preference
-                'heatmap-weight': 0.5,
-                'heatmap-intensity': 1,
-                'heatmap-color': [
-                    'interpolate',
-                    ['linear'],
-                    ['heatmap-density'],
-                    0, 'rgba(0, 0, 255, 0)',
-                    0.5, '#FFD700', // Using the same color as the 'restaurantes' layer
-                    1, 'rgba(255, 0, 0, 1)'
-                ],
-                'heatmap-radius': 20,
-                'heatmap-opacity': 0.8
-            }
-        });
 
-        // Update event listener for the 'restaurantes' toggle
-        document.getElementById('toggleRestaurantes').addEventListener('change', function(e) {
-            const isChecked = e.target.checked;
-            const visibility = isChecked ? 'visible' : 'none';
-            // Set visibility for both the original and heatmap layers
-            map.setLayoutProperty('restaurantes', 'visibility', visibility);
-            map.setLayoutProperty('restaurantes-heatmap', 'visibility', visibility);
-        });
         
         map.on('load', () => {
         
@@ -339,6 +303,7 @@
                 // Introduce a slight delay before updating the count
                 setTimeout(() => updatePointCount(layer.idPrefix), 300); // 300 ms delay
             });
+        
         });
 
         // Array of ids
