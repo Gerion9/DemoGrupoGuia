@@ -59,7 +59,7 @@
         </div>
     </div>
     <script>
-        mapboxgl.accessToken = 'pk.eyJ1IjoiZmVpcG93ZXIiLCJhIjoiY2xrd3J2Nm95MTQ4djNubXFxZTNwOTcwcCJ9.i8v9xvkxubQWnp2Z6vkyFA';
+        mapboxgl.accessToken = 'API_KEY';
             const map = new mapboxgl.Map({
             container: 'map',
             // Choose from Mapbox's core styles, or make your own style with Mapbox Stu dio
@@ -373,7 +373,7 @@
         //dddddd
         // Toggle heatmap visibility based on checkbox
         document.getElementById('toggleHeatmap').addEventListener('change', function(e) {
-            map.setLayoutProperty('cafeteriaRestaurantHeatmap', 'visibility', e.target.checked ? 'visible' : 'none');
+            map.setLayoutProperty('combinedHeatmap', 'visibility', e.target.checked ? 'visible' : 'none');
         });
         //dddddd
             
